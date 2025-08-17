@@ -17,52 +17,53 @@ from collections import defaultdict
 
 st.set_page_config(page_title="Climate Heroes KPI Extractor", page_icon="🌍", layout="wide")
 
-# NUCLEAR OPTION - Force everything to be #1b5e20
+# JavaScript force-change colors after page loads
+st.components.v1.html("""
+<script>
+function forceGreenColors() {
+    // Force all checkboxes to green
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    checkboxes.forEach(cb => {
+        cb.style.accentColor = '#1b5e20';
+        cb.style.backgroundColor = '#1b5e20';
+        cb.style.borderColor = '#1b5e20';
+        // Find parent elements and force color
+        let parent = cb.parentElement;
+        while (parent) {
+            if (parent.style) {
+                if (parent.style.backgroundColor && parent.style.backgroundColor.includes('255, 75, 75')) {
+                    parent.style.backgroundColor = '#1b5e20';
+                }
+            }
+            parent = parent.parentElement;
+        }
+    });
+    
+    // Force all sliders to green
+    const sliders = document.querySelectorAll('input[type="range"]');
+    sliders.forEach(slider => {
+        slider.style.accentColor = '#1b5e20';
+    });
+}
+
+// Run immediately and on any changes
+forceGreenColors();
+setTimeout(forceGreenColors, 500);
+setTimeout(forceGreenColors, 1000);
+
+// Watch for changes and reapply
+const observer = new MutationObserver(forceGreenColors);
+observer.observe(document.body, { childList: true, subtree: true });
+</script>
+""", height=0)
+
+# Also keep the CSS
 st.markdown("""
     <style>
-    /* Override EVERYTHING with your exact color */
-    * {
-        --primary-color: #1b5e20 !important;
-    }
-    
-    /* Extract button */
     .stButton > button[kind="primary"] {
         background-color: #1b5e20 !important;
         border-color: #1b5e20 !important;
     }
-    
-    /* ALL checkbox states - FORCE green */
-    input[type="checkbox"]:checked,
-    input[type="checkbox"]:checked:before,
-    input[type="checkbox"]:checked:after,
-    .stCheckbox input[type="checkbox"]:checked,
-    [data-baseweb="checkbox"] input:checked,
-    [data-testid="stCheckbox"] input:checked {
-        background-color: #1b5e20 !important;
-        border-color: #1b5e20 !important;
-        accent-color: #1b5e20 !important;
-        color: white !important;
-    }
-    
-    /* ALL slider states - FORCE green */
-    input[type="range"],
-    .stSlider input[type="range"],
-    [data-baseweb="slider"] input[type="range"] {
-        accent-color: #1b5e20 !important;
-    }
-    
-    input[type="range"]::-webkit-slider-thumb {
-        background-color: #1b5e20 !important;
-    }
-    
-    input[type="range"]::-moz-range-thumb {
-        background-color: #1b5e20 !important;
-    }
-    
-    /* Brute force - replace any red colors */
-    [style*="rgb(255, 75, 75)"] { background-color: #1b5e20 !important; }
-    [style*="#ff4b4b"] { background-color: #1b5e20 !important; }
-    [style*="red"] { background-color: #1b5e20 !important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -370,6 +371,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
