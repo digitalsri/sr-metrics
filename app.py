@@ -16,36 +16,42 @@ from collections import defaultdict
 # ----------------- APP CONFIGURATION -----------------
 
 st.set_page_config(page_title="Climate Heroes KPI Extractor", page_icon="🌍", layout="wide")
+
+# Match original local green theme
 st.markdown("""
     <style>
-    /* Primary button - nice dark green */
+    /* Primary button - match your original dark green */
     .stButton > button[kind="primary"] {
-        background-color: #22c55e !important;
-        border-color: #22c55e !important;
+        background-color: #0d7377 !important;
+        border-color: #0d7377 !important;
+        color: white !important;
     }
     .stButton > button[kind="primary"]:hover {
-        background-color: #16a34a !important;
-        border-color: #16a34a !important;
+        background-color: #0a5d61 !important;
+        border-color: #0a5d61 !important;
     }
     
-    /* Checkbox - green checkmark, normal background */
-    div[data-testid="stCheckbox"] input[type="checkbox"]:checked::before {
-        color: #22c55e !important;
+    /* Checkboxes - green checkmark only */
+    .st-emotion-cache-1erivf3 input[type="checkbox"]:checked {
+        background-color: #0d7377 !important;
+        border-color: #0d7377 !important;
     }
     
-    /* Remove green background from checkbox container */
-    div[data-testid="stCheckbox"] > label > div {
-        background-color: transparent !important;
+    /* Alternative checkbox selector */
+    div[data-testid="stCheckbox"] input[type="checkbox"]:checked {
+        background-color: #0d7377 !important;
+        border-color: #0d7377 !important;
     }
     
-    /* Sidebar sliders - green thumb */
-    .stSlider > div > div > div > div {
-        background-color: #22c55e !important;
+    /* Sidebar sliders - match original */
+    .stSlider .st-emotion-cache-1kyxreq input[type="range"]::-webkit-slider-thumb {
+        background-color: #0d7377 !important;
+        border: 2px solid #0d7377 !important;
     }
     
-    /* Slider track active part */
-    .stSlider > div > div > div {
-        background: linear-gradient(to right, #22c55e 0%, #22c55e var(--value), #e5e7eb var(--value), #e5e7eb 100%) !important;
+    /* Slider value text - keep normal color */
+    .stSlider .st-emotion-cache-1kyxreq {
+        color: inherit !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -316,4 +322,5 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
