@@ -17,6 +17,20 @@ from collections import defaultdict
 
 st.set_page_config(page_title="Climate Heroes KPI Extractor", page_icon="🌍", layout="wide")
 
+# Fix colors - make everything green instead of red
+st.markdown("""
+    <style>
+    .stButton > button[kind="primary"] {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+    }
+    input[type="checkbox"]:checked + div {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # --- Model & API Config ---
 AVAILABLE_MODELS = {
     "gemini-2.5-flash-lite": "Gemini 2.5 Flash-Lite (Recommended)",
@@ -281,4 +295,5 @@ def main():
             st.download_button(label="📥 Download as Excel", data=output.getvalue(), file_name=f"KPI_Extraction_{target_year}.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
 
 if __name__ == "__main__":
+
     main()
