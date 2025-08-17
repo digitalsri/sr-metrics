@@ -17,43 +17,92 @@ from collections import defaultdict
 
 st.set_page_config(page_title="Climate Heroes KPI Extractor", page_icon="🌍", layout="wide")
 
-# Recreate exact local .streamlit/config.toml theme
+# NUCLEAR OPTION - Force everything to be #1b5e20
 st.markdown("""
     <style>
-    /* Set Streamlit's CSS variables to match your local config */
-    :root {
+    /* Override EVERYTHING with your exact color */
+    * {
         --primary-color: #1b5e20 !important;
-        --background-color: #ffffff !important;
-        --secondary-background-color: #f0f2f6 !important;
-        --text-color: #262730 !important;
     }
     
-    /* Force primary color everywhere */
+    /* Extract button */
     .stButton > button[kind="primary"] {
         background-color: #1b5e20 !important;
         border-color: #1b5e20 !important;
     }
     
-    /* Checkboxes */
-    input[type="checkbox"]:checked {
+    /* ALL checkbox states - FORCE green */
+    input[type="checkbox"]:checked,
+    input[type="checkbox"]:checked:before,
+    input[type="checkbox"]:checked:after,
+    .stCheckbox input[type="checkbox"]:checked,
+    [data-baseweb="checkbox"] input:checked,
+    [data-testid="stCheckbox"] input:checked {
         background-color: #1b5e20 !important;
         border-color: #1b5e20 !important;
         accent-color: #1b5e20 !important;
+        color: white !important;
     }
     
-    /* Sliders */
-    input[type="range"] {
+    /* ALL slider states - FORCE green */
+    input[type="range"],
+    .stSlider input[type="range"],
+    [data-baseweb="slider"] input[type="range"] {
         accent-color: #1b5e20 !important;
     }
     
-    /* Override Streamlit's internal CSS variables */
-    .st-emotion-cache-uf99v8, 
-    .st-emotion-cache-1kyxreq,
-    .st-emotion-cache-1erivf3 {
-        --primary-color: #1b5e20 !important;
+    input[type="range"]::-webkit-slider-thumb {
+        background-color: #1b5e20 !important;
     }
+    
+    input[type="range"]::-moz-range-thumb {
+        background-color: #1b5e20 !important;
+    }
+    
+    /* Brute force - replace any red colors */
+    [style*="rgb(255, 75, 75)"] { background-color: #1b5e20 !important; }
+    [style*="#ff4b4b"] { background-color: #1b5e20 !important; }
+    [style*="red"] { background-color: #1b5e20 !important; }
     </style>
 """, unsafe_allow_html=True)
+
+# Recreate exact local .streamlit/config.toml theme
+# st.markdown("""
+#     <style>
+#     /* Set Streamlit's CSS variables to match your local config */
+#     :root {
+#         --primary-color: #1b5e20 !important;
+#         --background-color: #ffffff !important;
+#         --secondary-background-color: #f0f2f6 !important;
+#         --text-color: #262730 !important;
+#     }
+    
+#     /* Force primary color everywhere */
+#     .stButton > button[kind="primary"] {
+#         background-color: #1b5e20 !important;
+#         border-color: #1b5e20 !important;
+#     }
+    
+#     /* Checkboxes */
+#     input[type="checkbox"]:checked {
+#         background-color: #1b5e20 !important;
+#         border-color: #1b5e20 !important;
+#         accent-color: #1b5e20 !important;
+#     }
+    
+#     /* Sliders */
+#     input[type="range"] {
+#         accent-color: #1b5e20 !important;
+#     }
+    
+#     /* Override Streamlit's internal CSS variables */
+#     .st-emotion-cache-uf99v8, 
+#     .st-emotion-cache-1kyxreq,
+#     .st-emotion-cache-1erivf3 {
+#         --primary-color: #1b5e20 !important;
+#     }
+#     </style>
+# """, unsafe_allow_html=True)
 
 # --- Model & API Config ---
 AVAILABLE_MODELS = {
@@ -321,6 +370,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
