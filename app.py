@@ -18,40 +18,50 @@ from collections import defaultdict
 st.set_page_config(page_title="Climate Heroes KPI Extractor", page_icon="🌍", layout="wide")
 
 # Match original local green theme
+# Force ALL elements to use original local green theme
 st.markdown("""
     <style>
-    /* Primary button - match your original dark green */
-    .stButton > button[kind="primary"] {
-        background-color: #0d7377 !important;
-        border-color: #0d7377 !important;
+    /* Primary button - exact match */
+    .stButton > button[kind="primary"],
+    button[kind="primary"] {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
         color: white !important;
     }
-    .stButton > button[kind="primary"]:hover {
-        background-color: #0a5d61 !important;
-        border-color: #0a5d61 !important;
+    
+    /* ALL possible checkbox selectors */
+    input[type="checkbox"]:checked,
+    .st-emotion-cache-1erivf3 input[type="checkbox"]:checked,
+    div[data-testid="stCheckbox"] input[type="checkbox"]:checked,
+    .stCheckbox input[type="checkbox"]:checked,
+    [data-testid="stCheckbox"] input:checked {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        accent-color: #28a745 !important;
     }
     
-    /* Checkboxes - green checkmark only */
-    .st-emotion-cache-1erivf3 input[type="checkbox"]:checked {
-        background-color: #0d7377 !important;
-        border-color: #0d7377 !important;
+    /* ALL possible slider selectors */
+    .stSlider input[type="range"],
+    input[type="range"],
+    .st-emotion-cache-1kyxreq input[type="range"] {
+        accent-color: #28a745 !important;
     }
     
-    /* Alternative checkbox selector */
-    div[data-testid="stCheckbox"] input[type="checkbox"]:checked {
-        background-color: #0d7377 !important;
-        border-color: #0d7377 !important;
+    /* Webkit slider thumbs */
+    input[type="range"]::-webkit-slider-thumb {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
     }
     
-    /* Sidebar sliders - match original */
-    .stSlider .st-emotion-cache-1kyxreq input[type="range"]::-webkit-slider-thumb {
-        background-color: #0d7377 !important;
-        border: 2px solid #0d7377 !important;
+    /* Firefox slider thumbs */
+    input[type="range"]::-moz-range-thumb {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
     }
     
-    /* Slider value text - keep normal color */
-    .stSlider .st-emotion-cache-1kyxreq {
-        color: inherit !important;
+    /* Override any red colors */
+    .st-emotion-cache-* {
+        --primary-color: #28a745 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -322,5 +332,6 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
