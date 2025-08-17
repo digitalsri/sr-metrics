@@ -17,94 +17,6 @@ from collections import defaultdict
 
 st.set_page_config(page_title="Climate Heroes KPI Extractor", page_icon="🌍", layout="wide")
 
-# JavaScript force-change colors after page loads
-st.components.v1.html("""
-<script>
-function forceGreenColors() {
-    // Force all checkboxes to green
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    checkboxes.forEach(cb => {
-        cb.style.accentColor = '#1b5e20';
-        cb.style.backgroundColor = '#1b5e20';
-        cb.style.borderColor = '#1b5e20';
-        // Find parent elements and force color
-        let parent = cb.parentElement;
-        while (parent) {
-            if (parent.style) {
-                if (parent.style.backgroundColor && parent.style.backgroundColor.includes('255, 75, 75')) {
-                    parent.style.backgroundColor = '#1b5e20';
-                }
-            }
-            parent = parent.parentElement;
-        }
-    });
-    
-    // Force all sliders to green
-    const sliders = document.querySelectorAll('input[type="range"]');
-    sliders.forEach(slider => {
-        slider.style.accentColor = '#1b5e20';
-    });
-}
-
-// Run immediately and on any changes
-forceGreenColors();
-setTimeout(forceGreenColors, 500);
-setTimeout(forceGreenColors, 1000);
-
-// Watch for changes and reapply
-const observer = new MutationObserver(forceGreenColors);
-observer.observe(document.body, { childList: true, subtree: true });
-</script>
-""", height=0)
-
-# Also keep the CSS
-st.markdown("""
-    <style>
-    .stButton > button[kind="primary"] {
-        background-color: #1b5e20 !important;
-        border-color: #1b5e20 !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# Recreate exact local .streamlit/config.toml theme
-# st.markdown("""
-#     <style>
-#     /* Set Streamlit's CSS variables to match your local config */
-#     :root {
-#         --primary-color: #1b5e20 !important;
-#         --background-color: #ffffff !important;
-#         --secondary-background-color: #f0f2f6 !important;
-#         --text-color: #262730 !important;
-#     }
-    
-#     /* Force primary color everywhere */
-#     .stButton > button[kind="primary"] {
-#         background-color: #1b5e20 !important;
-#         border-color: #1b5e20 !important;
-#     }
-    
-#     /* Checkboxes */
-#     input[type="checkbox"]:checked {
-#         background-color: #1b5e20 !important;
-#         border-color: #1b5e20 !important;
-#         accent-color: #1b5e20 !important;
-#     }
-    
-#     /* Sliders */
-#     input[type="range"] {
-#         accent-color: #1b5e20 !important;
-#     }
-    
-#     /* Override Streamlit's internal CSS variables */
-#     .st-emotion-cache-uf99v8, 
-#     .st-emotion-cache-1kyxreq,
-#     .st-emotion-cache-1erivf3 {
-#         --primary-color: #1b5e20 !important;
-#     }
-#     </style>
-# """, unsafe_allow_html=True)
-
 # --- Model & API Config ---
 AVAILABLE_MODELS = {
     "gemini-2.5-flash-lite": "Gemini 2.5 Flash-Lite (Recommended)",
@@ -371,6 +283,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
