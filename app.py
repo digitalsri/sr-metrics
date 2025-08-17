@@ -16,17 +16,36 @@ from collections import defaultdict
 # ----------------- APP CONFIGURATION -----------------
 
 st.set_page_config(page_title="Climate Heroes KPI Extractor", page_icon="🌍", layout="wide")
-
-# Fix colors - make everything green instead of red
 st.markdown("""
     <style>
+    /* Primary button - nice dark green */
     .stButton > button[kind="primary"] {
-        background-color: #28a745 !important;
-        border-color: #28a745 !important;
+        background-color: #22c55e !important;
+        border-color: #22c55e !important;
     }
-    input[type="checkbox"]:checked + div {
-        background-color: #28a745 !important;
-        border-color: #28a745 !important;
+    .stButton > button[kind="primary"]:hover {
+        background-color: #16a34a !important;
+        border-color: #16a34a !important;
+    }
+    
+    /* Checkbox - green checkmark, normal background */
+    div[data-testid="stCheckbox"] input[type="checkbox"]:checked::before {
+        color: #22c55e !important;
+    }
+    
+    /* Remove green background from checkbox container */
+    div[data-testid="stCheckbox"] > label > div {
+        background-color: transparent !important;
+    }
+    
+    /* Sidebar sliders - green thumb */
+    .stSlider > div > div > div > div {
+        background-color: #22c55e !important;
+    }
+    
+    /* Slider track active part */
+    .stSlider > div > div > div {
+        background: linear-gradient(to right, #22c55e 0%, #22c55e var(--value), #e5e7eb var(--value), #e5e7eb 100%) !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -297,3 +316,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
