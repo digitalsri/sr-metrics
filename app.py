@@ -17,51 +17,40 @@ from collections import defaultdict
 
 st.set_page_config(page_title="Climate Heroes KPI Extractor", page_icon="🌍", layout="wide")
 
-# Match original local green theme
-# Force ALL elements to use original local green theme
+# Recreate exact local .streamlit/config.toml theme
 st.markdown("""
     <style>
-    /* Primary button - exact match */
-    .stButton > button[kind="primary"],
-    button[kind="primary"] {
-        background-color: #28a745 !important;
-        border-color: #28a745 !important;
-        color: white !important;
+    /* Set Streamlit's CSS variables to match your local config */
+    :root {
+        --primary-color: #1b5e20 !important;
+        --background-color: #ffffff !important;
+        --secondary-background-color: #f0f2f6 !important;
+        --text-color: #262730 !important;
     }
     
-    /* ALL possible checkbox selectors */
-    input[type="checkbox"]:checked,
-    .st-emotion-cache-1erivf3 input[type="checkbox"]:checked,
-    div[data-testid="stCheckbox"] input[type="checkbox"]:checked,
-    .stCheckbox input[type="checkbox"]:checked,
-    [data-testid="stCheckbox"] input:checked {
-        background-color: #28a745 !important;
-        border-color: #28a745 !important;
-        accent-color: #28a745 !important;
+    /* Force primary color everywhere */
+    .stButton > button[kind="primary"] {
+        background-color: #1b5e20 !important;
+        border-color: #1b5e20 !important;
     }
     
-    /* ALL possible slider selectors */
-    .stSlider input[type="range"],
-    input[type="range"],
-    .st-emotion-cache-1kyxreq input[type="range"] {
-        accent-color: #28a745 !important;
+    /* Checkboxes */
+    input[type="checkbox"]:checked {
+        background-color: #1b5e20 !important;
+        border-color: #1b5e20 !important;
+        accent-color: #1b5e20 !important;
     }
     
-    /* Webkit slider thumbs */
-    input[type="range"]::-webkit-slider-thumb {
-        background-color: #28a745 !important;
-        border-color: #28a745 !important;
+    /* Sliders */
+    input[type="range"] {
+        accent-color: #1b5e20 !important;
     }
     
-    /* Firefox slider thumbs */
-    input[type="range"]::-moz-range-thumb {
-        background-color: #28a745 !important;
-        border-color: #28a745 !important;
-    }
-    
-    /* Override any red colors */
-    .st-emotion-cache-* {
-        --primary-color: #28a745 !important;
+    /* Override Streamlit's internal CSS variables */
+    .st-emotion-cache-uf99v8, 
+    .st-emotion-cache-1kyxreq,
+    .st-emotion-cache-1erivf3 {
+        --primary-color: #1b5e20 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -332,6 +321,7 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
 
 
