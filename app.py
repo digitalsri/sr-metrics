@@ -1,4 +1,4 @@
-import fitz  # PyMuPDF
+import fitz # PyMuPDF
 import re
 import os
 import io
@@ -178,9 +178,9 @@ def main():
         <style>
         /* Targets the 'Start a New Analysis' button (any button that isn't primary) */
         .stButton > button:not([kind="primary"]) {
-            background-color: #f0f2f6;      /* A standard Streamlit light grey */
-            color: #4f4f4f;                 /* A pleasing dark grey for text and icon */
-            border: 1px solid #dcdcdc;      /* A subtle border */
+            background-color: #f0f2f6; /* A standard Streamlit light grey */
+            color: #4f4f4f; /* A pleasing dark grey for text and icon */
+            border: 1px solid #dcdcdc; /* A subtle border */
         }
         .stButton > button:not([kind="primary"]):hover {
             background-color: #e6e6e6;
@@ -246,7 +246,17 @@ def main():
 
     if st.session_state.get('results'):
         st.markdown("---"); st.subheader("📊 Extraction Results")
-        df = pd.DataFrame(st.session_state.results).drop_duplicates(subset=['kpi', 'variant', 'value', 'year']).reset_index(drop=True)
+        df = pd.DataFrame(st.session_state.results)
+        
+        # FIX: Only drop duplicates on columns that exist in the DataFrame
+        expected_cols = ['kpi', 'variant', 'value', 'year']
+        existing_cols = [col for col in expected_cols if col in df.columns]
+        
+        if existing_cols:
+            df = df.drop_duplicates(subset=existing_cols).reset_index(drop=True)
+        else:
+            # If none of the expected columns exist, just reset index
+            df = df.reset_index(drop=True)
         
         for _, row in df.iterrows():
             kpi_name = row.get('kpi')
@@ -272,7 +282,19 @@ def main():
                                 st.image(page_to_image(verify_doc, int(row['page']), dpi=200), use_container_width=True)
                         except Exception as e: st.error(f"Could not load verification image: {e}")
         
-        export_df_data = [{'KPI': r.get('kpi'), 'Variant': r.get('variant'), 'Value': r.get('value'), 'Unit': r.get('unit'), 'Year': r.get('year'), 'Confidence': f"{r.get('confidence', 0):.2f}", 'Source Page': r.get('page')} for _, r in df.iterrows() if pd.notna(r.get('value'))]
+        # FIX: Only create export data for rows that have the required columns
+        export_df_data = []
+        for _, r in df.iterrows():
+            if pd.notna(r.get('value')):
+                export_df_data.append({
+                    'KPI': r.get('kpi', 'N/A'), 
+                    'Variant': r.get('variant', 'N/A'), 
+                    'Value': r.get('value', 'N/A'), 
+                    'Unit': r.get('unit', 'N/A'), 
+                    'Year': r.get('year', 'N/A'), 
+                    'Confidence': f"{r.get('confidence', 0):.2f}", 
+                    'Source Page': r.get('page', 'N/A')
+                })
         
         if export_df_data:
             st.markdown("---"); st.subheader("📥 Export Results")
@@ -281,12 +303,4 @@ def main():
             st.download_button(label="📥 Download as Excel", data=output.getvalue(), file_name=f"KPI_Extraction_{target_year}.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
 
 if __name__ == "__main__":
-
     main()
-
-
-
-
-
-
-
