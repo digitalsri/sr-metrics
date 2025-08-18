@@ -163,7 +163,7 @@ def main():
     with st.container(border=True):
         st.subheader("📄 1. Provide Report Details")
         c1, c2 = st.columns([3, 1])
-        st.session_state.pdf_url = c1.text_input("Public PDF URL", value=st.session_state.pdf_url, placeholder="https://www.dbs.com/iwov-resources/images/sustainability/reporting/pdf/web/DBS_SR2024.pdf")
+        st.session_state.pdf_url = c1.text_input("Public PDF URL", value=st.session_state.pdf_url, placeholder="https://sustainability.atmeta.com/...")
         target_year = c2.number_input("Target Year", 2015, 2030, 2023)
 
     with st.container(border=True):
@@ -171,7 +171,16 @@ def main():
         kpi_cols = st.columns(3)
         for i, kpi in enumerate(KPI_DEFINITIONS.keys()):
             kpi_cols[i % 3].checkbox(kpi, value=st.session_state.kpi_selections.get(kpi, True), key=kpi)
-    selected_kpis = [kpi for kpi, selected in st.session_state.items() if kpi in KPI_DEFINITIONS and selected]
+    # Get selected KPIs in the correct display order
+    kpi_display_order = [
+        "Scope 1 Emissions",
+        "Scope 2 Emissions", 
+        "Scope 3 Emissions",
+        "Emissions Intensity",
+        "Energy Intensity",
+        "Total Energy Usage"
+    ]
+    selected_kpis = [kpi for kpi in kpi_display_order if st.session_state.get(kpi, False)]
 
     # **FIX 2: Inject CSS for the 'Start a New Analysis' button**
     st.markdown("""
@@ -258,6 +267,22 @@ def main():
             # If none of the expected columns exist, just reset index
             df = df.reset_index(drop=True)
         
+        # Define the display order for KPIs
+        kpi_display_order = [
+            "Scope 1 Emissions",
+            "Scope 2 Emissions", 
+            "Scope 3 Emissions",
+            "Emissions Intensity",
+            "Energy Intensity",
+            "Total Energy Usage"
+        ]
+        
+        # Sort DataFrame by KPI display order (keeping this as backup, but processing order should now be correct)
+        kpi_order_map = {kpi: i for i, kpi in enumerate(kpi_display_order)}
+        df['kpi_order'] = df['kpi'].map(kpi_order_map)
+        df = df.sort_values(['kpi_order', 'variant']).reset_index(drop=True)
+        df = df.drop('kpi_order', axis=1)
+        
         for _, row in df.iterrows():
             kpi_name = row.get('kpi')
             if pd.notna(row.get('variant')) and row.get('variant') != 'null': kpi_name = f"{kpi_name} ({row.get('variant').title()})"
@@ -304,4 +329,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
