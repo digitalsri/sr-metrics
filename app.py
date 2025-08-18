@@ -163,7 +163,7 @@ def main():
     with st.container(border=True):
         st.subheader("📄 1. Provide Report Details")
         c1, c2 = st.columns([3, 1])
-        st.session_state.pdf_url = c1.text_input("Public PDF URL", value=st.session_state.pdf_url, placeholder="https://sustainability.atmeta.com/...")
+        st.session_state.pdf_url = c1.text_input("Public PDF URL", value=st.session_state.pdf_url, placeholder="https://www.dbs.com/iwov-resources/images/sustainability/reporting/pdf/web/DBS_SR2024.pdf")
         target_year = c2.number_input("Target Year", 2015, 2030, 2023)
 
     with st.container(border=True):
@@ -304,3 +304,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
