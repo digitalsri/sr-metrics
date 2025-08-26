@@ -112,7 +112,12 @@ def generate_prompt(kpi: str, target_year: int) -> str:
 
 def extract_kpi_with_gemini(image: Image.Image, kpi: str, target_year: int, model_id: str) -> List[Dict]:
     if not api_key_configured: return [{"kpi": kpi, "error": "API Key not configured."}]
-    model = genai.GenerativeModel(model_id)
+    generation_config = genai.GenerationConfig(
+        temperature=0.0,
+        top_p=0.95,
+        response_mime_type='application/json' # Ask for JSON response directly
+    )
+    model = genai.GenerativeModel(model_id, generation_config=generation_config)
     prompt = generate_prompt(kpi, target_year)
     try:
         response = model.generate_content([prompt, image])
@@ -329,3 +334,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
